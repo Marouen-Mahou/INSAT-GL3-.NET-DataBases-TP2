@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="gl3tp2Act1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="marques">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="personnes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Prénom" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="voitures">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Modele" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Marque" Type="int" Nullable="false" />
+          <Property Name="Proprietaire" Type="int" />
+        </EntityType>
+        <Association Name="FK_Marque">
+          <End Role="marques" Type="Self.marques" Multiplicity="1" />
+          <End Role="voitures" Type="Self.voitures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="marques">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="voitures">
+              <PropertyRef Name="Marque" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proprietaire">
+          <End Role="personnes" Type="Self.personnes" Multiplicity="0..1" />
+          <End Role="voitures" Type="Self.voitures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="personnes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="voitures">
+              <PropertyRef Name="Proprietaire" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="gl3tp2Act1ModelStoreContainer">
+          <EntitySet Name="marques" EntityType="Self.marques" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnes" EntityType="Self.personnes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="voitures" EntityType="Self.voitures" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Marque" Association="Self.FK_Marque">
+            <End Role="marques" EntitySet="marques" />
+            <End Role="voitures" EntitySet="voitures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proprietaire" Association="Self.FK_Proprietaire">
+            <End Role="personnes" EntitySet="personnes" />
+            <End Role="voitures" EntitySet="voitures" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="gl3tp2Act1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="marques">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="voitures" Relationship="Self.FK_Marque" FromRole="marques" ToRole="voitures" />
+        </EntityType>
+        <EntityType Name="personnes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prénom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="voitures" Relationship="Self.FK_Proprietaire" FromRole="personnes" ToRole="voitures" />
+        </EntityType>
+        <EntityType Name="voitures">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Modele" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Marque" Type="Int32" Nullable="false" />
+          <Property Name="Proprietaire" Type="Int32" />
+          <NavigationProperty Name="marques" Relationship="Self.FK_Marque" FromRole="voitures" ToRole="marques" />
+          <NavigationProperty Name="personnes" Relationship="Self.FK_Proprietaire" FromRole="voitures" ToRole="personnes" />
+        </EntityType>
+        <Association Name="FK_Marque">
+          <End Role="marques" Type="Self.marques" Multiplicity="1" />
+          <End Role="voitures" Type="Self.voitures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="marques">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="voitures">
+              <PropertyRef Name="Marque" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proprietaire">
+          <End Role="personnes" Type="Self.personnes" Multiplicity="0..1" />
+          <End Role="voitures" Type="Self.voitures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="personnes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="voitures">
+              <PropertyRef Name="Proprietaire" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="gl3tp2Act1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="marques" EntityType="Self.marques" />
+          <EntitySet Name="personnes" EntityType="Self.personnes" />
+          <EntitySet Name="voitures" EntityType="Self.voitures" />
+          <AssociationSet Name="FK_Marque" Association="Self.FK_Marque">
+            <End Role="marques" EntitySet="marques" />
+            <End Role="voitures" EntitySet="voitures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proprietaire" Association="Self.FK_Proprietaire">
+            <End Role="personnes" EntitySet="personnes" />
+            <End Role="voitures" EntitySet="voitures" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="gl3tp2Act1ModelStoreContainer" CdmEntityContainer="gl3tp2Act1Entities">
+          <EntitySetMapping Name="marques">
+            <EntityTypeMapping TypeName="gl3tp2Act1Model.marques">
+              <MappingFragment StoreEntitySet="marques">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnes">
+            <EntityTypeMapping TypeName="gl3tp2Act1Model.personnes">
+              <MappingFragment StoreEntitySet="personnes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Prénom" ColumnName="Prénom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="voitures">
+            <EntityTypeMapping TypeName="gl3tp2Act1Model.voitures">
+              <MappingFragment StoreEntitySet="voitures">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Modele" ColumnName="Modele" />
+                <ScalarProperty Name="Marque" ColumnName="Marque" />
+                <ScalarProperty Name="Proprietaire" ColumnName="Proprietaire" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

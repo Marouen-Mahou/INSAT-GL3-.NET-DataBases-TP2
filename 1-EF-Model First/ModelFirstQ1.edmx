@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelFirstQ1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelFirstQ1StoreContainer">
+    <EntitySet Name="marques" EntityType="ModelFirstQ1.Store.marques" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="personnes" EntityType="ModelFirstQ1.Store.personnes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="voitures" EntityType="ModelFirstQ1.Store.voitures" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Marque" Association="ModelFirstQ1.Store.FK_Marque">
+      <End Role="marques" EntitySet="marques" />
+      <End Role="voitures" EntitySet="voitures" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proprietaire" Association="ModelFirstQ1.Store.FK_Proprietaire">
+      <End Role="personnes" EntitySet="personnes" />
+      <End Role="voitures" EntitySet="voitures" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="marques">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="varchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="personnes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="varchar" Nullable="false" MaxLength="20" />
+    <Property Name="Prénom" Type="varchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="voitures">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Modele" Type="varchar" Nullable="false" MaxLength="20" />
+    <Property Name="Marque" Type="int" Nullable="false" />
+    <Property Name="Proprietaire" Type="int" Nullable="true" />
+  </EntityType>
+  <Association Name="FK_Marque">
+    <End Role="marques" Type="ModelFirstQ1.Store.marques" Multiplicity="1" />
+    <End Role="voitures" Type="ModelFirstQ1.Store.voitures" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="marques">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="voitures">
+        <PropertyRef Name="Marque" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proprietaire">
+    <End Role="personnes" Type="ModelFirstQ1.Store.personnes" Multiplicity="0..1" />
+    <End Role="voitures" Type="ModelFirstQ1.Store.voitures" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="personnes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="voitures">
+        <PropertyRef Name="Proprietaire" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelFirstQ1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ModelFirstQ1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="marques" EntityType="ModelFirstQ1.Marque" />
+          <EntitySet Name="personnes" EntityType="ModelFirstQ1.Personne" />
+          <EntitySet Name="voitures" EntityType="ModelFirstQ1.Voiture" />
+          <AssociationSet Name="FK_Marque" Association="ModelFirstQ1.FK_Marque">
+            <End Role="marques" EntitySet="marques" />
+            <End Role="voitures" EntitySet="voitures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proprietaire" Association="ModelFirstQ1.FK_Proprietaire">
+            <End Role="personnes" EntitySet="personnes" />
+            <End Role="voitures" EntitySet="voitures" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Marque">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="voitures" Relationship="ModelFirstQ1.FK_Marque" FromRole="marques" ToRole="voitures" />
+        </EntityType>
+        <EntityType Name="Personne">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Prénom" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="voitures" Relationship="ModelFirstQ1.FK_Proprietaire" FromRole="personnes" ToRole="voitures" />
+        </EntityType>
+        <EntityType Name="Voiture">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Modele" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Marque" Type="Int32" Nullable="false" />
+          <Property Name="Proprietaire" Type="Int32" />
+          <NavigationProperty Name="marques" Relationship="ModelFirstQ1.FK_Marque" FromRole="voitures" ToRole="marques" />
+          <NavigationProperty Name="personnes" Relationship="ModelFirstQ1.FK_Proprietaire" FromRole="voitures" ToRole="personnes" />
+        </EntityType>
+        <Association Name="FK_Marque">
+          <End Type="ModelFirstQ1.Marque" Role="marques" Multiplicity="1" />
+          <End Type="ModelFirstQ1.Voiture" Role="voitures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="marques">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="voitures">
+              <PropertyRef Name="Marque" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proprietaire">
+          <End Type="ModelFirstQ1.Personne" Role="personnes" Multiplicity="0..1" />
+          <End Type="ModelFirstQ1.Voiture" Role="voitures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="personnes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="voitures">
+              <PropertyRef Name="Proprietaire" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelFirstQ1StoreContainer" CdmEntityContainer="ModelFirstQ1Container">
+    <EntitySetMapping Name="marques">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelFirstQ1.Marque)">
+        <MappingFragment StoreEntitySet="marques">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="personnes">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelFirstQ1.Personne)">
+        <MappingFragment StoreEntitySet="personnes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="Prénom" ColumnName="Prénom" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="voitures">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelFirstQ1.Voiture)">
+        <MappingFragment StoreEntitySet="voitures">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Modele" ColumnName="Modele" />
+          <ScalarProperty Name="Marque" ColumnName="Marque" />
+          <ScalarProperty Name="Proprietaire" ColumnName="Proprietaire" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

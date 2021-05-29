@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4a23022492274f29a20bba1e1a471727" Name="Diagram1" ZoomLevel="55" >
+        <EntityTypeShape EntityType="ModelFirstQ1.Marque" Width="1.5" PointX="0.75" PointY="1.25" />
+        <EntityTypeShape EntityType="ModelFirstQ1.Personne" Width="1.5" PointX="0.75" PointY="5.125" />
+        <EntityTypeShape EntityType="ModelFirstQ1.Voiture" Width="1.5" PointX="3" PointY="0.875" />
+        <AssociationConnector Association="ModelFirstQ1.FK_Marque" />
+        <AssociationConnector Association="ModelFirstQ1.FK_Proprietaire" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
